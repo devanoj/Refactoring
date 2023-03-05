@@ -52,9 +52,9 @@ public class SearchBySurnameDialog extends JDialog implements ActionListener{
 	
 		textPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		textPanel.add(searchLabel = new JLabel("Enter Surname:"));
-		searchLabel.setFont(this.parent.font1);
+		searchLabel.setFont(this.parent.data.font1);
 		textPanel.add(searchField = new JTextField(20));
-		searchField.setFont(this.parent.font1);
+		searchField.setFont(this.parent.data.font1);
 		searchField.setDocument(new JTextFieldLimit(20));
 
 		buttonPanel.add(search = new JButton("Search"));
@@ -74,7 +74,7 @@ public class SearchBySurnameDialog extends JDialog implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// if option search, search for Employee
 		if(e.getSource() == search){
-			this.parent.searchBySurnameField.setText(searchField.getText());
+			this.parent.data.searchBySurnameField.setText(searchField.getText());
 			// search Employee by surname
 			this.parent.searchEmployeeBySurname();
 			dispose();// dispose dialog

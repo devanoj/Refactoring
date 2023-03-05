@@ -54,9 +54,9 @@ public class SearchByIdDialog extends JDialog implements ActionListener {
 
 		textPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		textPanel.add(searchLabel = new JLabel("Enter ID:"));
-		searchLabel.setFont(this.parent.font1);
+		searchLabel.setFont(this.parent.data.font1);
 		textPanel.add(searchField = new JTextField(20));
-		searchField.setFont(this.parent.font1);
+		searchField.setFont(this.parent.data.font1);
 		searchField.setDocument(new JTextFieldLimit(20));
 		
 		buttonPanel.add(search = new JButton("Search"));
@@ -79,7 +79,7 @@ public class SearchByIdDialog extends JDialog implements ActionListener {
 			// try get correct valus from text field
 			try {
 				Double.parseDouble(searchField.getText());
-				this.parent.searchByIdField.setText(searchField.getText());
+				this.parent.data.searchByIdField.setText(searchField.getText());
 				// search Employee by ID
 				this.parent.searchEmployeeById();
 				dispose();// dispose dialog
