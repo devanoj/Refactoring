@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Vector;
 
@@ -107,13 +108,9 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 		menuBar.add(closeMenu);
 
 		open(fileMenu);
-		
 		save_as(fileMenu);
-
 		createUpdateDeleteData(recordMenu);
-
 		navigation(navigateMenu);
-
 		closingApp(closeMenu);
 
 		return menuBar;
@@ -250,30 +247,7 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 
 		empDetails.setBorder(BorderFactory.createTitledBorder("Employee Details"));
 
-		empDetails.add(new JLabel("ID:"), "growx, pushx");
-		empDetails.add(idField = new JTextField(20), "growx, pushx, wrap");
-		idField.setEditable(false);
-
-		empDetails.add(new JLabel("PPS Number:"), "growx, pushx");
-		empDetails.add(ppsField = new JTextField(20), "growx, pushx, wrap");
-
-		empDetails.add(new JLabel("Surname:"), "growx, pushx");
-		empDetails.add(surnameField = new JTextField(20), "growx, pushx, wrap");
-
-		empDetails.add(new JLabel("First Name:"), "growx, pushx");
-		empDetails.add(firstNameField = new JTextField(20), "growx, pushx, wrap");
-
-		empDetails.add(new JLabel("Gender:"), "growx, pushx");
-		empDetails.add(genderCombo = new JComboBox<String>(gender), "growx, pushx, wrap");
-
-		empDetails.add(new JLabel("Department:"), "growx, pushx");
-		empDetails.add(departmentCombo = new JComboBox<String>(department), "growx, pushx, wrap");
-
-		empDetails.add(new JLabel("Salary:"), "growx, pushx");
-		empDetails.add(salaryField = new JTextField(20), "growx, pushx, wrap");
-
-		empDetails.add(new JLabel("Full Time:"), "growx, pushx");
-		empDetails.add(fullTimeCombo = new JComboBox<String>(fullTime), "growx, pushx, wrap");
+		inputEmpDetails(empDetails);  // Add Employee Details 
 
 		buttonPanel.add(saveChange = new JButton("Save"));
 		saveChange.addActionListener(this);
@@ -314,49 +288,69 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 		return empDetails;
 	}// end detailsPanel
 
+	private void inputEmpDetails(JPanel empDetails) {
+		empDetails.add(new JLabel("ID:"), "growx, pushx");
+		empDetails.add(idField = new JTextField(20), "growx, pushx, wrap");
+		idField.setEditable(false);
+
+		empDetails.add(new JLabel("PPS Number:"), "growx, pushx");
+		empDetails.add(ppsField = new JTextField(20), "growx, pushx, wrap");
+
+		empDetails.add(new JLabel("Surname:"), "growx, pushx");
+		empDetails.add(surnameField = new JTextField(20), "growx, pushx, wrap");
+
+		empDetails.add(new JLabel("First Name:"), "growx, pushx");
+		empDetails.add(firstNameField = new JTextField(20), "growx, pushx, wrap");
+
+		empDetails.add(new JLabel("Gender:"), "growx, pushx");
+		empDetails.add(genderCombo = new JComboBox<String>(gender), "growx, pushx, wrap");
+
+		empDetails.add(new JLabel("Department:"), "growx, pushx");
+		empDetails.add(departmentCombo = new JComboBox<String>(department), "growx, pushx, wrap");
+
+		empDetails.add(new JLabel("Salary:"), "growx, pushx");
+		empDetails.add(salaryField = new JTextField(20), "growx, pushx, wrap");
+
+		empDetails.add(new JLabel("Full Time:"), "growx, pushx");
+		empDetails.add(fullTimeCombo = new JComboBox<String>(fullTime), "growx, pushx, wrap");
+	}
+/*
+ * Fixxxxx this
+ */
 	// display current Employee details
 	public void displayRecords(Employee thisEmployee) {
-		int countGender = 0;
-		int countDep = 0;
-		boolean found = false;
-
 		searchByIdField.setText("");
 		searchBySurnameField.setText("");
-		// if Employee is null or ID is 0 do nothing else display Employee
-		// details
-		if (thisEmployee == null) {
-		} else if (thisEmployee.getEmployeeId() == 0) {
-		} else {
-			// find corresponding gender combo box value to current employee
-			while (!found && countGender < gender.length - 1) {
-				if (Character.toString(thisEmployee.getGender()).equalsIgnoreCase(gender[countGender]))
-					found = true;
-				else
-					countGender++;
-			} // end while
-			found = false;
-			// find corresponding department combo box value to current employee
-			while (!found && countDep < department.length - 1) {
-				if (thisEmployee.getDepartment().trim().equalsIgnoreCase(department[countDep]))
-					found = true;
-				else
-					countDep++;
-			} // end while
-			idField.setText(Integer.toString(thisEmployee.getEmployeeId()));
-			ppsField.setText(thisEmployee.getPps().trim());
-			surnameField.setText(thisEmployee.getSurname().trim());
-			firstNameField.setText(thisEmployee.getFirstName());
-			genderCombo.setSelectedIndex(countGender);
-			departmentCombo.setSelectedIndex(countDep);
-			salaryField.setText(format.format(thisEmployee.getSalary()));
-			// set corresponding full time combo box value to current employee
-			if (thisEmployee.getFullTime() == true)
-				fullTimeCombo.setSelectedIndex(1);
-			else
-				fullTimeCombo.setSelectedIndex(2);
+
+		// if Employee is null or ID is 0 do nothing else display Employee details
+		if (thisEmployee == null || thisEmployee.getEmployeeId() == 0) {
+		    return;
 		}
+
+		int genderIndex = Arrays.binarySearch(gender, thisEmployee.getGender() + "", String::compareToIgnoreCase);
+		int depIndex = Arrays.binarySearch(department, thisEmployee.getDepartment(), String::compareToIgnoreCase);
+		
+		if (genderIndex >= 0) {
+		    genderCombo.setSelectedIndex(genderIndex);
+		}
+		if (depIndex >= 0) {
+		    departmentCombo.setSelectedIndex(depIndex);
+		}
+		
+		idField.setText(Integer.toString(thisEmployee.getEmployeeId()));
+		ppsField.setText(thisEmployee.getPps().trim());
+		surnameField.setText(thisEmployee.getSurname().trim());
+		firstNameField.setText(thisEmployee.getFirstName());
+		salaryField.setText(format.format(thisEmployee.getSalary()));
+
+		if (thisEmployee.getFullTime()) {
+		    fullTimeCombo.setSelectedIndex(1);
+		} else {
+		    fullTimeCombo.setSelectedIndex(2);
+		}
+
 		change = false;
-	}// end display records
+}// end display records
 
 	// display Employee summary dialog
 	private void displayEmployeeSummaryDialog() {
