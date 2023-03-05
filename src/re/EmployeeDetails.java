@@ -137,12 +137,16 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 		navigateMenu.add(searchBySurname = new JMenuItem("Search by Surname")).addActionListener(this);
 		navigateMenu.add(listAll = new JMenuItem("List all Records")).addActionListener(this);
 
-		closeMenu.add(closeApp = new JMenuItem("Close")).addActionListener(this);
-		closeApp.setMnemonic(KeyEvent.VK_F4);
-		closeApp.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.CTRL_MASK));
+		closingApp(closeMenu);
 
 		return menuBar;
 	}// end menuBar
+
+	private void closingApp(JMenu closeMenu) {
+		closeMenu.add(closeApp = new JMenuItem("Close")).addActionListener(this);
+		closeApp.setMnemonic(KeyEvent.VK_F4);
+		closeApp.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.CTRL_MASK));
+	}
 
 	// initialize search panel
 	private JPanel searchPanel() {
