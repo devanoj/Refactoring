@@ -106,24 +106,35 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 		menuBar.add(navigateMenu);
 		menuBar.add(closeMenu);
 
-		fileMenu.add(open = new JMenuItem("Open")).addActionListener(this);
-		open.setMnemonic(KeyEvent.VK_O);
-		open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
+		open(fileMenu);
+		
+		save_as(fileMenu);
+
+		createUpdateDeleteData(recordMenu);
+
+		navigation(navigateMenu);
+
+		closingApp(closeMenu);
+
+		return menuBar;
+	}// end menuBar
+
+	private void save_as(JMenu fileMenu) {
 		fileMenu.add(save = new JMenuItem("Save")).addActionListener(this);
 		save.setMnemonic(KeyEvent.VK_S);
 		save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
 		fileMenu.add(saveAs = new JMenuItem("Save As")).addActionListener(this);
 		saveAs.setMnemonic(KeyEvent.VK_F2);
 		saveAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2, ActionEvent.CTRL_MASK));
+	}
 
-		recordMenu.add(create = new JMenuItem("Create new Record")).addActionListener(this);
-		create.setMnemonic(KeyEvent.VK_N);
-		create.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
-		recordMenu.add(modify = new JMenuItem("Modify Record")).addActionListener(this);
-		modify.setMnemonic(KeyEvent.VK_E);
-		modify.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK));
-		recordMenu.add(delete = new JMenuItem("Delete Record")).addActionListener(this);
+	private void open(JMenu fileMenu) {
+		fileMenu.add(open = new JMenuItem("Open")).addActionListener(this);
+		open.setMnemonic(KeyEvent.VK_O);
+		open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
+	}
 
+	private void navigation(JMenu navigateMenu) {
 		navigateMenu.add(firstItem = new JMenuItem("First"));
 		firstItem.addActionListener(this);
 		navigateMenu.add(prevItem = new JMenuItem("Previous"));
@@ -136,11 +147,17 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 		navigateMenu.add(searchById = new JMenuItem("Search by ID")).addActionListener(this);
 		navigateMenu.add(searchBySurname = new JMenuItem("Search by Surname")).addActionListener(this);
 		navigateMenu.add(listAll = new JMenuItem("List all Records")).addActionListener(this);
+	}
 
-		closingApp(closeMenu);
-
-		return menuBar;
-	}// end menuBar
+	private void createUpdateDeleteData(JMenu recordMenu) {
+		recordMenu.add(create = new JMenuItem("Create new Record")).addActionListener(this);
+		create.setMnemonic(KeyEvent.VK_N);
+		create.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
+		recordMenu.add(modify = new JMenuItem("Modify Record")).addActionListener(this);
+		modify.setMnemonic(KeyEvent.VK_E);
+		modify.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK));
+		recordMenu.add(delete = new JMenuItem("Delete Record")).addActionListener(this);
+	}
 
 	private void closingApp(JMenu closeMenu) {
 		closeMenu.add(closeApp = new JMenuItem("Close")).addActionListener(this);
